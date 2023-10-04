@@ -13,4 +13,5 @@ const Alumno = sequelize.define('Alumno', {
         type: DataTypes.STRING,
      }
 });
+Alumno.sync({ force: false })
 module.exports = Alumno;

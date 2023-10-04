@@ -1,10 +1,40 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <% include('./plantillas/head');  %>
-</head>
-<body>
-    <h1>Lista ; <%- pageName %> </h1>
-    <button><a href="Alum"></a></button>
-</body>
+<html>
+    <head>
+        <%- include('./plantillas/head'); %>
+    <style>
+            table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+            }
+
+            td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+            }
+
+            tr:nth-child(even) {
+            background-color: #dddddd;
+            }
+            </style>
+        </head>
+    <body>
+        <h1>Lista : <%- pageName %></h1>
+        <button><a href="Alumnos/Registro">Agregar Nuevo</a></button>
+          <table>
+            <tr>
+                <th>Nombre</th>
+                <th>Email</th>
+            </tr>
+            <% alumnos.forEach(function(item,index) { %>
+                <tr>
+                    <td> <%= item.nombre %> </td>
+                    <td> <%= item.email %> </td>
+                </tr>
+            <% }) %>
+          </table>
+        
+    </body>
 </html>
