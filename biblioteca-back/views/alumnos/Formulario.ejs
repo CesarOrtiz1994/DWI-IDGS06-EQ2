@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <%- include('./plantillas/head'); %>
+    </head>
+    <body>
+        <h1>Registro: <%- pageName %></h1>
+        <form action="/alumnos" method="post">
+            <fieldset>
+              <legend>Registro de Alumno</legend>
+              <label for="nombre">Nombre:</label>
+              <input type="text" id="nombre" name="nombre" /><br /><br />
+              
+              <label for="email">Email:</label>
+              <input type="email" id="email" name="email" /><br /><br />
+              <input type="submit" value="submit" />
+            </fieldset>
+          </form>
+
+        
+    </body>
+</html>
