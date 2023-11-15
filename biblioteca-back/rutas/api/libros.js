@@ -21,21 +21,21 @@ router.get('/id/:id',async (req,res) =>{
 router.post('/',async (req,res) => {
     controlador.agregarLibro(req.body)
     res.status(200)
-    res.json({ message : req.body.titulo})
+    res.json({ message : "Se agrego correctamente."})
 });
 
 /** Actualiza un libro */
 router.put('/',async (req,res) => {
     controlador.actualizarLibro(req.body)
     res.status(200)
-    res.json({ message : "Se actualizo bien"})
+    res.json({ message : "Se actualizo correctamente."})
 });
 
 /** Elimina un libro */
 router.delete('/',async (req,res) => {
     controlador.eliminarLibro(req.body.id)
     res.status(200)
-    res.json({ message : "Se elimino bien"})
+    res.json({ message : "Se elimino correctamente."})
 });
 
 module.exports = router;
