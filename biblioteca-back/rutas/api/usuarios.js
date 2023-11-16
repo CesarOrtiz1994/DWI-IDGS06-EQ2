@@ -26,6 +26,7 @@ router.post('/',async (req,res) => {
 
 /** Actualiza un usuario */
 router.put('/',async (req,res) => {
+    console.log("actualizar")
     controlador.actualizarUsuario(req.body)
     res.status(200)
     res.json({ message : "Update successfully."})
@@ -43,11 +44,49 @@ router.post('/login',async (req,res) => {
     console.log("Llega al router:", req.body)
     const result = await controlador.validarLoginUsuario(req.body.email, req.body.password)
     console.log("res" + result)
-    if(result)
-        res.status(200)
-    else
-        res.status(401)
-    res.json({ message : "Login successfully."})
+    // if(result)
+    //     res.status(200)
+    // else
+    //     res.status(401)
+    // res.json({ message : "Login successfully."})
 });
+
+router.post("/", async (req, res) => {
+    res.status(200);
+  
+    if (!await controlador.validarLoginUsuario(req.body.email, req.body.password))
+    {
+      return res.status(400).json({error: "Usuario o pasword incorrecto"})
+    }
+  
+    const token = jwt.sign(
+      {
+        user: req.body.username,
+      },
+      clave_secreta,
+      {
+        expiresIn: "1h",
+      }
+    );
+  
+    console.log(token);
+    res.header("auth-token", token).json({
+      data: { token },
+    });
+  });
+  
+  router.post('/verificaToken', async (req, res) => {
+      const authHeader = req.header('authorization')
+      const token = authHeader && authHeader.split(" ")[1]
+      console.log(token);
+      if(!token) return res.status(401).json({ error: 'Acceso denegado'})
+      try {
+          const verified = jwt.verify(token, clave_secreta)
+          verified
+          res.status(200).json({ data: verified })
+      } catch (e) {
+          res.status(400).json({ error: "token no es valido"})
+      }
+  })
 
 module.exports = router;

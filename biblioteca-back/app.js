@@ -12,9 +12,11 @@ app.use(bodyParser.json())
 
 const libros = require("./rutas/api/libros");
 const categoriesRouter = require("./rutas/api/categories")
+const usuario = require("./rutas/api/usuarios");
 
 app.use('/api/books',libros)
 app.use("/api/categories", categoriesRouter)
+app.use("/api/usuarios", usuario)
 
 app.listen(process.env.PORT || 3000, () => {
   console.log(`Servicio iniciado correctamente en el puerto ${process.env.PORT || 3000}`)

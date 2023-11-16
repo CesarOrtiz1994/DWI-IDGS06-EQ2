@@ -15,8 +15,10 @@ function RepositorioUsuarios() {
             });
         },
         getByEmail : async (email) => {
-            return Usuario.findAll({
-                attributes: ['email', email]
+            return await Usuario.findAll({
+                where: {
+                    email: email
+                }
             });
         },
         updateById : async (id, usuario) => {
