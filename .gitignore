@@ -10,6 +10,9 @@ biblioteca-back/logs
 biblioteca-back/results
 biblioteca-back/node_modules
 biblioteca-back/.node_history
+biblioteca-back/.env
+
+front/node_modules
 
 ############################
 # Tests
