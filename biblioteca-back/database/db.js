@@ -1,7 +1,7 @@
 ﻿const { Sequelize } = require("sequelize");
 
 //conectar a la BD
-const sequelize = new Sequelize('bibliouteq', 'root', '12345678', {
+const sequelize = new Sequelize('web_integral', 'root', process.env.BD_PASSWORD, {
     host: 'localhost',
     dialect: 'mysql'
 })
