@@ -1,0 +1,39 @@
+POST http://localhost:3000/api/alumno http/1.1
+Content-Type: application/json
+
+{
+    "nombre" : "Uteq",
+    "email" : "1236@uteq.edu.mx"
+}
+
+###
+GET http://localhost:3000/api/alumno HTTP/1.1
+
+###
+POST http://localhost:3000/api/registro 
+Content-Type: application/json
+
+{
+    "username" : "prueba1@uteq.com",
+    "password" : "123456"
+}
+
+###
+POST http://localhost:3000/api/login/verificaToken 
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoicHJ1ZWJhMUB1dGVxLmNvbSIsImlhdCI6MTY5ODQ1NzM0OH0.d1luD9vT6D0c2xIF7OUivvICtXm1Y9wQ5TBrwi-v5X4
+
+{
+    "username" : "prueba1@uteq.com",
+    "password" : "123456"
+}
+
+###
+POST http://localhost:3000/api/login/ 
+Content-Type: application/json
+
+{
+    "username" : "prueba1@uteq.com",
+    "password" : "123456"
+}
+###
