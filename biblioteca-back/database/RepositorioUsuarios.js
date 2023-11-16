@@ -14,28 +14,33 @@ function RepositorioUsuarios() {
                 attributes: ['user_id', id]
             });
         },
-        update : async (id, usuario) => {
+        getByEmail : async (email) => {
+            return Usuario.findAll({
+                attributes: ['email', email]
+            });
+        },
+        updateById : async (id, usuario) => {
             return Usuario.update(usuario, {
                 where: {
                     user_id: id
                 }
             });
         },
-        delete : async (id) => {
+        deleteById : async (id) => {
             return Usuario.destroy({
                 where: {
                     user_id: id
                 }
             });
         },
-        login : async (login) =>{
-            return Usuario.findAll({
-                where: {
-                    email: login.user_id,
-                    password: login.password
-                }
-            });
-        }
+        // login : async (login) =>{
+        //     return Usuario.findAll({
+        //         where: {
+        //             email: login.user_id,
+        //             password: login.password
+        //         }
+        //     });
+        // }
     }
 }
 
