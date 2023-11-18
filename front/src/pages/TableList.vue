@@ -1,117 +1,293 @@
 <template>
-  <form class="custom-form">
-    <div class="form-group">
-      <label for="titulo">Título</label>
-      <input type="text" class="form-control" id="titulo" v-model="titulo" />
-    </div>
-    <div class="form-group">
-      <label for="año">Año</label>
-      <input type="number" class="form-control" id="año" v-model="año" />
-    </div>
-    <div class="form-group">
-      <label for="autor">Autor</label>
-      <input type="text" class="form-control" id="autor" v-model="autor" />
-    </div>
-    <div class="form-group">
-      <label for="editorial">Editorial</label>
-      <input type="text" class="form-control" id="editorial" v-model="editorial" />
-    </div>
-    <div class="form-group">
-      <label for="categoría">Categoría</label>
-      <input type="text" class="form-control" id="categoría" v-model="categoría" />
-    </div>
-    
-    <div class="form-group">
-        <button type="submit" class="btn btn-primary">Guardar</button>
-        <button type="submit" class="btn btn-secundary">Editar</button>
-        <button type="submit" class="btn btn-danger">Eliminar</button>
-    </div>
-  </form>
+  <div>
+    <button @click="agregarLibro" class="botonAgregar">
+      Agregar Libro</button>
+    <table>
+      <thead>
+        <tr>
+          <th>Título</th>
+          <th>Año</th>
+          <th>Autor</th>
+          <th>Editorial</th>
+          <th>Categoría</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(libro, index) in listaDeLibros" :key="index">
+          <td>{{ libro.titulo }}</td>
+          <td>{{ libro.ano }}</td>
+          <td>{{ libro.autor }}</td>
+          <td>{{ libro.editorial }}</td>
+          <td>{{ libro.categoria }}</td>
+            <!-- Agregar botón de editar con el método correspondiente -->
+            <td class="botonEditarEliminar">
+              <button @click="editarLibro(index)" class="btnEditar">Editar</button>
+              <button @click="eliminarLibro(index)" class="btnEliminar">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+    </table>
+
+
+    <!-- Ventana modal -->
+       <!-- Ventana modal -->
+       <div v-if="mostrarModal" class="modal">
+      <div class="modal-contenido">
+        <div class="modal-header">
+          <h2>{{ libroEditado ? 'Editar libro' : 'Agregar nuevo libro' }}</h2>
+          <span @click="cerrarModal" class="cerrar-modal">&times;</span>
+        </div>
+            <div class="modal-body">
+              <!-- Agrega los campos necesarios para agregar un nuevo libro -->
+              <input v-model="nuevoLibro.titulo" placeholder="Título" />
+              <input v-model="nuevoLibro.ano" placeholder="Año" />
+              <input v-model="nuevoLibro.autor" placeholder="Autor" />
+              <input v-model="nuevoLibro.editorial" placeholder="Editorial" />
+              <input v-model="nuevoLibro.categoria" placeholder="Categoría" />
+            </div>
+            <div class="modal-footer">
+              <button @click="agregarLibroModal" class="btn-agregar">{{ libroEditado ? 'Editar' : 'Agregar' }}</button>
+              <button @click="cerrarModal" class="btn-cancelar">Cancelar</button>
+            </div>
+          </div>
+        </div>
+      </div>
 </template>
+
 
 <script>
 export default {
   data() {
     return {
-      id: null,
-      titulo: null,
-      año: null,
-      autor: null,
-      editorial: null,
-      categoría: null,
+      listaDeLibros: [],
+      mostrarModal: false,
+      nuevoLibro: {
+        titulo: "",
+        ano: "",
+        autor: "",
+        editorial: "",
+        categoria: "",
+      },
+      libroEditado: null,
     };
+  },
+  methods: {
+    agregarLibro() {
+      this.mostrarModal = true;
+      // Resetea el objeto nuevoLibro al agregar un nuevo libro
+      this.nuevoLibro = {
+        titulo: "",
+        ano: "",
+        autor: "",
+        editorial: "",
+        categoria: "",
+      };
+    },
+    agregarLibroModal() {
+      if (this.libroEditado !== null) {
+        // Edita el libro existente
+        const index = this.listaDeLibros.indexOf(this.libroEditado);
+        this.listaDeLibros.splice(index, 1, { ...this.nuevoLibro });
+        this.libroEditado = null; // Reinicia libroEditado
+      } else {
+        // Agrega un nuevo libro
+        this.listaDeLibros.push({ ...this.nuevoLibro });
+      }
+
+      this.mostrarModal = false;
+      // Limpia los campos después de agregar/editar el libro
+      this.nuevoLibro = {
+        titulo: "",
+        ano: "",
+        autor: "",
+        editorial: "",
+        categoria: "",
+      };
+    },
+    editarLibro(index) {
+      this.libroEditado = { ...this.listaDeLibros[index] };
+      this.mostrarModal = true;
+      // Inicializa nuevoLibro con los valores del libro a editar
+      this.nuevoLibro = { ...this.libroEditado };
+    },
+    eliminarLibro(index) {
+      this.listaDeLibros.splice(index, 1);
+    },
+    cerrarModal() {
+      this.mostrarModal = false;
+      this.libroEditado = null;
+    },
   },
 };
 </script>
 
 <style scoped>
-
-.custom-form {
-  max-width: 400px;
-  margin: auto;
+/* Estilos CSS aquí */
+.botonEditarEliminar {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end; /* Alinea los elementos al final del contenedor */
+    text-align: right;
 }
 
-.form-group {
-  margin-bottom: 15px;
+.botonEditarEliminar button {
+    padding: 8px 15px;
+    cursor: pointer;
+    background-color: #4c96af;
+    border: none;
+    color: white;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    margin-right: -162px;
 }
 
-label {
-  display: block;
-  margin-bottom: 5px;
+.botonEditarEliminar button.btnEliminar {
+    background-color: #f44336;
 }
 
-.form-control {
+.botonEditarEliminar button:hover {
+    background-color: #b9c8ba;
+}
+
+/* Estilos para la ventana modal */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-contenido {
+  background-color: white;
+  width: 400px;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.modal-header h2 {
+  margin: 0;
+}
+
+.cerrar-modal {
+  cursor: pointer;
+  font-size: 20px;
+  color: #555;
+}
+
+.modal-body input {
   width: 100%;
   padding: 8px;
+  margin-bottom: 10px;
   box-sizing: border-box;
-  border: 1px solid #ccc;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.btn-agregar,
+.btn-cancelar {
+  padding: 8px 16px;
+  border: none;
   border-radius: 4px;
+  cursor: pointer;
+  margin-left: 8px;
 }
-.btn {
-  margin-right: 20px;
+
+.btn-agregar {
+  background-color: #4caf50;
+  color: white;
+}
+
+.btn-cancelar {
+  background-color: #ccc;
+  color: #333;
 }
 
 
-  .btn-primary {
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 4px;
-    cursor: pointer;
-  }
+.botonAgregar {
+  position: absolute;
+  top: 70px;
+  right: 52px;
+  background-color: #4caf50;
+  color: white;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+}
 
-  .btn-primary:hover {
-    background-color: #0056b3;
-  }
+.botonAgregar:hover {
+  background-color: #45a049;
+}
 
+.acciones {
+  position: absolute;
+  top: 130px;
+  right: 2px;
+  margin: 10px;
+}
 
+.acciones button {
+  background-color: rgb(233, 18, 46);
+  color: white;
+  padding: 8px;
+  border: none;
+  cursor: pointer;
+  margin-top: -15px;
+}
 
-  .btn-secundary {
-    background-color: #00ff8c;
-    color: #fff;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 4px;
-    cursor: pointer;
-  }
+.acciones button:hover {
+  background-color: rgb(134, 11, 11);
+}
 
-  .btn-secundary:hover {
-    background-color: #0b7545;
-  }
+.acciones2 {
+  position: absolute;
+  top: 130px;
+  right: 65px;
+  margin: 10px;
+}
 
+.acciones2 button {
+  background-color: #1a71c8;
+  color: white;
+  padding: 8px;
+  border: none;
+  cursor: pointer;
+  margin-top: -15px;
+}
 
+.acciones2 button:hover {
+  background-color: #1766b6
+}
 
-  .btn-danger {
-    background-color: #e83e3e;
-    color: #fff;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 4px;
-    cursor: pointer;
-  }
+table {
+  width: 80%;
+  margin-left: 50px auto;
+  border-collapse: collapse;
+}
 
-  .btn-danger:hover {
-    background-color: #861111;
-  }
+th,
+td {
+  border: -1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+}
+
+th {
+  background-color: #f2f2f2;
+}
 </style>
