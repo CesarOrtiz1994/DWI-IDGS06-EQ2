@@ -21,4 +21,4 @@ const Libro = sequelize.define('libros', {
 
 // Libro.sync({force: true})
 
-module.exports = Libro;
+module.exports = Libro; 
