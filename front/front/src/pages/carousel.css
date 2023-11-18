@@ -1,0 +1,20 @@
+/* carousel.css */
+
+/* Estilos para el carrusel */
+.carousel {
+    width: 100%;
+    overflow: hidden;
+  }
+  
+  /* Estilos para los elementos del carrusel */
+  .carousel__item {
+    width: 100%; /* Puedes ajustar el ancho según tus necesidades */
+    text-align: center;
+    /* Otros estilos según tus necesidades */
+  }
+  
+  /* Estilos para la navegación (si es necesario) */
+  .navigation {
+    /* Estilos para la navegación aquí */
+  }
+  
