@@ -10,11 +10,8 @@ function ControllerUsuario(repository) {
     validarLoginUsuario: async (username, myPlainPassword) => {
         console.log(myPlainPassword)
       const user = await repository.getByEmail(username);
-      console.log(user)
       if (!user) return false;
-      
       const result = await bcrypt.compare(myPlainPassword, user.password);
-      console.log("res" + result);
       return result;
     },
     agregarUsuario: async (email, myPlainPassword) => {

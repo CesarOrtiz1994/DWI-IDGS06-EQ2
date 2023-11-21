@@ -15,7 +15,7 @@ function RepositorioUsuarios() {
             });
         },
         getByEmail : async (email) => {
-            return await Usuario.findAll({
+            return await Usuario.findOne({
                 where: {
                     email: email
                 }
