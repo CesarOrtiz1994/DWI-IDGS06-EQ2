@@ -11,6 +11,7 @@ biblioteca-back/results
 biblioteca-back/node_modules
 biblioteca-back/.node_history
 biblioteca-back/.env
+biblioteca-back/private1.pem
 
 ############################
 # Tests
