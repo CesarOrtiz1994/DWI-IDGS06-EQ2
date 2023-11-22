@@ -13,9 +13,16 @@ biblioteca-back/.node_history
 biblioteca-back/.env
 
 front/node_modules
+biblioteca-back/private1.pem
 
 ############################
 # Tests
 ############################
 
 biblioteca-back/coverage
+
+############################
+# ni idea
+############################
+
+appExpress
