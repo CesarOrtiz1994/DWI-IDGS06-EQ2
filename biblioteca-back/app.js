@@ -7,6 +7,8 @@ const jwt = require("jsonwebtoken");
 const { obtenerClavePrivada } = require('./key/Clave_privada')
 let clave_privada;
 const cookiePar = require("cookie-parser")
+const cors = require("cors");
+
 
 obtenerClavePrivada((err, res) => {
   if (err) {
@@ -23,6 +25,14 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json())
 
 app.use(cookiePar())
+app.use(cors({
+  origin: 'http://localhost:3000',
+  allowedHeaders: ["Content-Type", "Authorization", 'x-csrf-t'],
+  allowedMethods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true,
+  maxAge: 600,
+  exposedHeaders: ['*', 'Authorization']
+}));
 
 /**
  * midelwere para verificar token
@@ -32,12 +42,11 @@ let token = "";
 function verificarToken(req, res, next) {
     // Obtener el token de la cookie o de donde lo estés enviando
     
-    console.log(req)
-    if (!req.cookies) {
+    if (!req.cookies['auth-token']) {
         token = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiY2VzYXJPcnRpekBnbWFpbC5jb20iLCJpYXQiOjE3MDA1NDA1NDMsImV4cCI6MTcwMDcxMzM0M30.TjgI19axPZm6iFsA2bXWhHhNOw-caiY29_wnx5c2kdrhTr2dTTvDr9jAxsNzQPbD7B9KwO5n_shpviXjjX-9w9gtEara8JyMYR-xryCqfo7sqiqSNNFQX4lMaPpYjTCzyiYISz9U0urmo55Yz-XQia1PQugNHklO2nLuu4WrAjrQOqo8WUXvza4lDt3_Who-7JDHnYQnh_dqqGGL2gm5Ch5HROIt40V9M4sm7IYHBRrgxiUnAiaU8pH9ZFi9yGy-w-ry8CPA87tQjhH06X6pMUEQN72jzQMPzJHEry4OLq-4DsOKA31rndtpIIotmmVtwDkr8qMqpYxKajok0NVq_A'
     } else {
         token = req.cookies['auth-token'];
-        console.log(token)
+        console.log(req.cookies)
     }
   
     // Verificar si el token existe

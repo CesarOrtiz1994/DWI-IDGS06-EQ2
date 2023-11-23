@@ -9,11 +9,13 @@ import ModalNewUser from "./ModalNewUser";
 import ModalEditUser from "./ModalEditUser";
 import { ToastContainer, toast } from "react-toastify";
 
+
 export default function Usuarios() {
   const auth = useAuth();
   const [inactive, setInactive] = useState(false);
   const [usuarios, setUsuarios] = useState([]);
-  const endPoint = "http://localhost:8000/api/";
+
+  const endPoint = "http://localhost:3001/api/";
 
   const [showNuevo, setShowNuevo] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
@@ -39,21 +41,22 @@ export default function Usuarios() {
   }, []);
 
   const getUsuarios = async () => {
-    const res = await axios.get(`${endPoint}users`);
-    //console.log(res.data.users);
-    setUsuarios(res.data.users);
+    const res = await axios.get(`${endPoint}usuarios`, {
+      withCredentials: true, // Habilita el envío de cookies con la solicitud
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    console.log(res.data)
+    setUsuarios(res.data);
   };
 
   const deleteUsuario = async (id) => {
-    const res = await axios.delete(`${endPoint}users/${id}`);
+    const res = await axios.delete(`${endPoint}usuarios/${id}`);
     console.log(res);
     toast.success(res.data.message);
     getUsuarios();
   };
-
-  if (auth.dataUser.rol !== 1) {
-    return <Navigate to="/" />;
-  }
 
   return (
     <AuthRoute>
@@ -79,20 +82,14 @@ export default function Usuarios() {
             <tr>
               <th scope="col">Nombre</th>
               <th scope="col">Email</th>
-              <th scope="col">Rol</th>
               <th scope="col">Acciones</th>
             </tr>
           </thead>
           <tbody>
             {usuarios.map((usuario) => (
-              <tr key={usuario.id}>
-                <td>{usuario.name}</td>
+              <tr key={usuario.user_id}>
                 <td>{usuario.email}</td>
-                <td>
-                  {usuario.type === 1
-                    ? "Administrador"
-                    : `${usuario.type === 2 ? "Almacen" : "Jefe de area"}`}
-                </td>
+                <td>{usuario.email}</td>
                 <td>
                   <button
                     className="btn btn-outline-danger me-2"

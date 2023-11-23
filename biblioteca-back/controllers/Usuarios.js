@@ -8,11 +8,13 @@ function ControllerUsuario(repository) {
       return await repository.getById(id);
     },
     validarLoginUsuario: async (username, myPlainPassword) => {
-        console.log(myPlainPassword)
       const user = await repository.getByEmail(username);
       if (!user) return false;
       const result = await bcrypt.compare(myPlainPassword, user.password);
       return result;
+    },
+    obtenerUsuarioPorEmail: async (email) => {
+      return await repository.getByEmail(email);
     },
     agregarUsuario: async (email, myPlainPassword) => {
       bcrypt.genSalt(10, function (err, salt) {

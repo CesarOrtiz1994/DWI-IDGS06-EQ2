@@ -24,7 +24,6 @@ export default function Systema() {
             <div className="card">
               <div className="card-body">
                 <h5 className="card-title">Bienvedido {auth.dataUser.name}</h5>
-                <p className="card-text">Tu rol es: {auth.dataUser.rol === 1 ? "Administrador" : auth.dataUser.rol === 2 ? "Almacen" : "Jefe de area"}</p>
                 <div className="divhr"></div>
                 <br />
                 <p className="card-text">Informacion de tu cuenta</p>

@@ -8,7 +8,6 @@ import {
 } from "react-icons/bs";
 import { FaHome, FaUserCircle } from "react-icons/fa";
 import { FiPackage } from "react-icons/fi";
-import { TbPackages, TbReportMedical } from "react-icons/tb";
 import MenuItems from "./MenuItems";
 import { useAuth } from "../../../Auth/auth";
 
@@ -20,7 +19,6 @@ export default function Menu(props) {
 
   const auth = useAuth();
 
-  if (auth.dataUser.rol === 1) {
     menuItems = [
       {
         name: "Home",
@@ -33,43 +31,17 @@ export default function Menu(props) {
         to: "/sistema/usuarios",
       },
       {
-        name: "Materiales",
+        name: "Categorias",
         icon: <FiPackage />,
         to: "/sistema/materiales",
       },
-    ];
-  } else if (auth.dataUser.rol === 2) {
-    menuItems = [
       {
-        name: "Home",
-        icon: <FaHome />,
-        to: "/sistema",
-      },
-      {
-        name: "Inventario",
-        icon: <TbPackages />,
+        name: "Libros",
+        icon: <FiPackage />,
         to: "/sistema/inventario",
       },
-      {
-        name: "Solicitudes",
-        icon: <TbReportMedical />,
-        to: "/sistema/solicitudes",
-      },
     ];
-  } else {
-    menuItems = [
-      {
-        name: "Home",
-        icon: <FaHome />,
-        to: "/sistema",
-      },
-      {
-        name: "Solicitar Material",
-        icon: <TbReportMedical />,
-        to: "/sistema/solicitar",
-      },
-    ];
-  }
+    
 
   useEffect(() => {
     props.onCollapse(inactive);
@@ -108,7 +80,7 @@ export default function Menu(props) {
       <div className="side-menu-footer">
         <ul>
           <li>
-            <a href="#" onClick={() => auth.logout()} className="menu-item">
+            <a href=" " onClick={() => auth.logout()} className="menu-item">
               <div className="menu-icon">
                 <BsDoorClosedFill />
               </div>

@@ -22,7 +22,7 @@ router.post("/", async (req, res) => {
       req.body.email,
       req.body.password
     );
-    //   console.log("res " + result);
+       console.log("res " + result);
     if (!result)
       return res.status(400).json({ error: "Usuario o pasword incorrecto" });
     else {
@@ -44,10 +44,14 @@ router.post("/", async (req, res) => {
       });
   
       //  console.log(token);
+      const datares = await controlador.obtenerUsuarioPorEmail(
+        req.body.email
+      )
   
       // mandar mensaje de login exitoso
       res.status(200).json({
-        message: "Login successfully."
+        message: "Login successfully.",
+        user: datares,
       });
       
     }
