@@ -1,0 +1,67 @@
+:root{
+    /* colores */
+    --color-warning: #FDC80B;
+    --color-sussece: #32D338;
+    --color-primary: #0b5f97;
+    --color-secondary: #3e80ac;
+    --color-blanco: #FFFFFF;
+  }
+  .App {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;;
+    height: 100vh;
+    background: rgb(11,95,151);
+    background: -moz-linear-gradient(0deg, rgba(11,95,151,1) 10%, rgba(62,128,172,1) 90%);
+    background: -webkit-linear-gradient(0deg, rgba(11,95,151,1) 10%, rgba(62,128,172,1) 90%);
+    background: linear-gradient(0deg, rgba(11,95,151,1) 10%, rgba(62,128,172,1) 90%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#0b5f97",endColorstr="#3e80ac",GradientType=1); 
+  }
+  
+  .login__image{
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .login{
+    background-color: rgba(255, 255, 255, 0.726);
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.548);
+  }
+  
+  .login h1{
+    text-align: center;
+    margin-bottom: 1rem;
+    color: var(--color-primary);
+  }
+  
+  .login button{
+    width: 100%;
+    margin-top: 1rem;
+    background-color: var(--color-primary);
+    color: var(--color-blanco);
+    border: none;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+  }
+  
+  .login button:hover{
+    background-color: var(--color-secondary);
+  }
+  
+  
+  .login__image{
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .login__image img {
+    width: 100%;
+    max-width: 300px;
+  }
+  
