@@ -33,7 +33,7 @@ export default function Menu(props) {
       {
         name: "Categorias",
         icon: <FiPackage />,
-        to: "/sistema/materiales",
+        to: "/sistema/categorias",
       },
       {
         name: "Libros",

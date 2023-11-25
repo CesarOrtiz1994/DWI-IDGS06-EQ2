@@ -4,78 +4,72 @@ import Modal from "react-bootstrap/Modal";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-const endPoint = "http://localhost:8000/api/material";
+const endPoint = "http://localhost:3001/api/categories";
 
 export default function ModalNewMaterial({ show, handleClose }) {
-    const [nombre, setNombre] = useState("");
-    const [descripcion, setDescripcion] = useState("");
+  const [nombre, setNombre] = useState("");
 
-    useEffect(() => {
-        limpiar();
-    }, [show]);
+  useEffect(() => {
+    limpiar();
+  }, [show]);
 
-    const store = async (e) => {
-        e.preventDefault();
-        if (validate()) {
-            await axios
-                .post(endPoint, {
-                    nombre: nombre,
-                    descripcion: descripcion,
-                })
-                .then((response) => {
-                    //console.log(response);
-                    toast.success(response.data.message);
-                    handleClose();
-                })
-                .catch((error) => {
-                    console.log(error);
-                    toast.error(error.response.data.message);
-                });
-        }
-    };
+  const store = async (e) => {
+    e.preventDefault();
+    if (validate()) {
+      await axios
+        .post(
+          endPoint,
+          {
+            name: nombre,
+          },
+          {
+            withCredentials: true, // Habilita el envío de cookies con la solicitud
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        )
+        .then((response) => {
+          //console.log(response);
+          toast.success(response.data.message);
+          setTimeout(() => {
+            handleClose();
+          });
+        })
+        .catch((error) => {
+          console.log(error);
+          toast.error("Error al agregar la categoria");
+        });
+    }
+  };
 
-    const validate = () => {
-        if (nombre === "") {
-            toast.error("El nombre es obligatorio");
-            return false;
-        } else if (descripcion === "") {
-            toast.error("La descripcion es obligatoria");
-            return false;
-        } else {
-            return true;
-        }
-    };
+  const validate = () => {
+    if (nombre === "") {
+      toast.error("El nombre de la categoria es obligatorio");
+      return false;
+    } else {
+      return true;
+    }
+  };
 
-    const limpiar = () => {
-        setNombre("");
-        setDescripcion("");
-    };
-
+  const limpiar = () => {
+    setNombre("");
+  };
 
   return (
-   <Modal show={show} onHide={handleClose}>
+    <Modal show={show} onHide={handleClose}>
       <Modal.Header closeButton>
-        <Modal.Title>Crear nuevo material</Modal.Title>
+        <Modal.Title>Crear nueva categoria</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-      <form onSubmit={store}>
+        <form onSubmit={store}>
           <div className="mb-3">
-            <label className="form-label">Nombre</label>
+            <label className="form-label">Nombre de la categoria</label>
             <input
               type="text"
               className="form-control"
               value={nombre}
               onChange={(e) => setNombre(e.target.value)}
-              required
-            />
-          </div>
-          <div className="mb-3">
-            <label className="form-label">Descripcion</label>
-            <input
-              type="text"
-              className="form-control"
-              value={descripcion}
-              onChange={(e) => setDescripcion(e.target.value)}
               required
             />
           </div>
@@ -88,5 +82,5 @@ export default function ModalNewMaterial({ show, handleClose }) {
         </form>
       </Modal.Body>
     </Modal>
-  )
+  );
 }

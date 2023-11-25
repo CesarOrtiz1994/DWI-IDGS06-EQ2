@@ -22,7 +22,7 @@ router.get("/:id", async (req, res) => {
 router.post("/", async (req, res) => {
   controller.addCategory(req.body.name)
   res.status(201)
-  res.json({ message : "Add successfully."})
+  res.json({ message : "Nueva categoria agregada."})
 })
 router.put("/:id", async (req, res) => {
   console.log("put")
