@@ -16,12 +16,14 @@ function ControllerUsuario(repository) {
     obtenerUsuarioPorEmail: async (email) => {
       return await repository.getByEmail(email);
     },
-    agregarUsuario: async (email, myPlainPassword) => {
+    agregarUsuario: async (email, myPlainPassword, nombre, apellido) => {
       bcrypt.genSalt(10, function (err, salt) {
         bcrypt.hash(myPlainPassword, salt, async function (err, hash) {
           await repository.create({
             email: email,
             password: hash,
+            nombre: nombre,
+            apellido: apellido,
           });
         });
       });
@@ -32,6 +34,8 @@ function ControllerUsuario(repository) {
           const response = await repository.updateById(params.id, {
             email: params.email,
             password: hash,
+            nombre: params.nombre,
+            apellido: params.apellido,
           });
           console.log(response);
         });

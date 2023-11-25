@@ -4,13 +4,13 @@ import Modal from "react-bootstrap/Modal";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-const endPoint = "http://localhost:8000/api/register";
+const endPoint = "http://localhost:3001/api/usuarios";
 
 export default function ModalNewUser({ show, handleClose }) {
   const [nombre, setNombre] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [rol, setRol] = useState(0);
+  const [apellido, setApellido] = useState(0);
 
   useEffect(() => {
     limpiar();
@@ -20,16 +20,27 @@ export default function ModalNewUser({ show, handleClose }) {
     e.preventDefault();
     if (validate()) {
       await axios
-        .post(endPoint, {
-          name: nombre,
-          email: email,
-          password: password,
-          type: rol,
-        })
+        .post(
+          endPoint,
+          {
+            email: email,
+            password: password,
+            nombre: nombre,
+            apellido: apellido,
+          },
+          {
+            withCredentials: true, // Habilita el envío de cookies con la solicitud
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        )
         .then((response) => {
           console.log(response);
           toast.success(response.data.message);
-          handleClose();
+          setTimeout(() => {
+            handleClose();
+          }, 1000);
         })
         .catch((error) => {
           console.log(error);
@@ -51,8 +62,8 @@ export default function ModalNewUser({ show, handleClose }) {
     } else if (password.length < 8) {
       toast.error("La contraseña debe tener al menos 8 caracteres");
       return false;
-    } else if (rol === 0) {
-      toast.error("El rol es obligatorio");
+    } else if (nombre === "") {
+      toast.error("El nombre es obligatorio");
       return false;
     } else {
       return true;
@@ -63,7 +74,7 @@ export default function ModalNewUser({ show, handleClose }) {
     setEmail("");
     setNombre("");
     setPassword("");
-    setRol(0);
+    setApellido("");
   };
 
   return (
@@ -73,16 +84,6 @@ export default function ModalNewUser({ show, handleClose }) {
       </Modal.Header>
       <Modal.Body>
         <form onSubmit={store}>
-          <div className="mb-3">
-            <label className="form-label">Nombre</label>
-            <input
-              type="text"
-              className="form-control"
-              value={nombre}
-              onChange={(e) => setNombre(e.target.value)}
-              required
-            />
-          </div>
           <div className="mb-3">
             <label className="form-label">Email</label>
             <input
@@ -104,17 +105,24 @@ export default function ModalNewUser({ show, handleClose }) {
             />
           </div>
           <div className="mb-3">
-            <label className="form-label">Rol</label>
-            <select
-              className="form-select"
-              value={rol}
-              onChange={(e) => setRol(e.target.value)}
-            >
-              <option value="0">Seleccione un rol</option>
-              <option value="1">Administrador</option>
-              <option value="2">Almacen</option>
-              <option value="3">Jefe de area</option>
-            </select>
+            <label className="form-label">Nombre</label>
+            <input
+              type="text"
+              className="form-control"
+              value={nombre}
+              onChange={(e) => setNombre(e.target.value)}
+              required
+            />
+          </div>
+          <div className="mb-3">
+            <label className="form-label">Apellido</label>
+            <input
+              type="text"
+              className="form-control"
+              value={apellido}
+              onChange={(e) => setApellido(e.target.value)}
+              required
+            />
           </div>
           <Button variant="secondary" onClick={handleClose} className="m-2">
             Cerrar

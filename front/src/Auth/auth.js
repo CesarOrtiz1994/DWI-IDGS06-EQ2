@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -42,11 +42,14 @@ function AuthProvider({ children }) {
       password: password,
     })
       .then((res) => {
+        console.log(res.data)
         toast.success(res.data.message);
         saveDataUser({
           ...dataUser,
           id: res.data.user.user_id,
           email: res.data.user.email,
+          nombre: res.data.user.nombre,
+          apellido: res.data.user.apellido
         });
         navigate("/sistema");
       })

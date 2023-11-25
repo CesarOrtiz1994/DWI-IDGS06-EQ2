@@ -10,8 +10,11 @@ function RepositorioUsuarios() {
             return await Usuario.findAll();
         },
         getById : async (id) => {
-            return Usuario.findAll({
-                attributes: ['user_id', id]
+            console.log(id)
+            return Usuario.findOne({
+                where: {
+                    user_id: id
+                }
             });
         },
         getByEmail : async (email) => {

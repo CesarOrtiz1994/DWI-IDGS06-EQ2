@@ -4,41 +4,53 @@ import Modal from "react-bootstrap/Modal";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-const endPoint = "http://localhost:8000/api/user";
-const endPoint1 = "http://localhost:8000/api/users";
+const endPoint = "http://localhost:3001/api/usuarios";
 
 export default function ModalEditUser({ show, handleClose, id_user }) {
   const [nombre, setNombre] = useState("");
   const [email, setEmail] = useState("");
-  const [rol, setRol] = useState(0);
+  const [apellido, setApellido] = useState("");
 
-
-    useEffect(() => {
+  useEffect(() => {
     if (id_user !== 0) {
+      const getUsuarioById = async () => {
+        const res = await axios.get(`${endPoint}/${id_user}`, {
+          withCredentials: true, // Habilita el envío de cookies con la solicitud
+        });
+        setNombre(res.data.nombre);
+        setEmail(res.data.email);
+        setApellido(res.data.apellido);
+      };
 
-        const getUsuarioById = async () => {
-            const res = await axios.get(`${endPoint}/${id_user}`);
-              setNombre(res.data.user.name);
-              setEmail(res.data.user.email);
-              setRol(res.data.user.type);
-          };
-
-        getUsuarioById();
-      }
-    }, [id_user]);
+      getUsuarioById();
+    }
+  }, [id_user]);
 
   const edit = async (e) => {
     e.preventDefault();
     if (validate()) {
-      await axios.put(`${endPoint1}/${id_user}`, {
-          name: nombre,
-          email: email,
-          type: rol,
-        })
+      await axios
+        .put(
+          `${endPoint}`,
+          {
+            id: id_user,
+            email: email,
+            nombre: nombre,
+            apellido: apellido,
+          },
+          {
+            withCredentials: true, // Habilita el envío de cookies con la solicitud
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        )
         .then((response) => {
           //console.log(response);
           toast.success(response.data.message);
-          handleClose();
+          setTimeout(() => {
+            handleClose();
+          }, 1000);
         })
         .catch((error) => {
           console.log(error);
@@ -54,15 +66,13 @@ export default function ModalEditUser({ show, handleClose, id_user }) {
     } else if (email === "") {
       toast.error("El email es obligatorio");
       return false;
-    } else if (rol === 0) {
-      toast.error("El rol es obligatorio");
+    } else if (apellido === 0) {
+      toast.error("El apellido es obligatorio");
       return false;
     } else {
       return true;
     }
   };
-
-  
 
   return (
     <Modal show={show} onHide={handleClose}>
@@ -75,7 +85,7 @@ export default function ModalEditUser({ show, handleClose, id_user }) {
             <label className="form-label">Nombre</label>
             <input
               type="text"
-              className="form-control"
+              className="form-contapellido"
               value={nombre}
               onChange={(e) => setNombre(e.target.value)}
               required
@@ -85,24 +95,21 @@ export default function ModalEditUser({ show, handleClose, id_user }) {
             <label className="form-label">Email</label>
             <input
               type="email"
-              className="form-control"
+              className="form-contapellido"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
             />
           </div>
           <div className="mb-3">
-            <label className="form-label">Rol</label>
-            <select
-              className="form-select"
-              value={rol}
-              onChange={(e) => setRol(e.target.value)}
-            >
-              <option value="0">Seleccione un rol</option>
-              <option value="1">Administrador</option>
-              <option value="2">Almacen</option>
-              <option value="3">Jefe de area</option>
-            </select>
+            <label className="form-label">Apellido</label>
+            <input
+              type="text"
+              className="form-contapellido"
+              value={apellido}
+              onChange={(e) => setApellido(e.target.value)}
+              required
+            />
           </div>
           <Button variant="secondary" onClick={handleClose} className="m-2">
             Cerrar

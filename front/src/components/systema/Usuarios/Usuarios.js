@@ -1,17 +1,14 @@
 import React, { useState, useEffect } from "react";
 import Menu from "../menu/Menu";
 import "../systema.css";
-import { AuthRoute, useAuth } from "../../../Auth/auth";
-import { Navigate } from "react-router-dom";
+import { AuthRoute } from "../../../Auth/auth";
 import axios from "axios";
 import { AiOutlineUserAdd } from "react-icons/ai";
 import ModalNewUser from "./ModalNewUser";
 import ModalEditUser from "./ModalEditUser";
 import { ToastContainer, toast } from "react-toastify";
 
-
 export default function Usuarios() {
-  const auth = useAuth();
   const [inactive, setInactive] = useState(false);
   const [usuarios, setUsuarios] = useState([]);
 
@@ -21,10 +18,10 @@ export default function Usuarios() {
   const [showEdit, setShowEdit] = useState(false);
   const [id, setId] = useState(0);
 
-  const handleClose = () => {
+  const handleClose = async () => {
     setShowNuevo(false);
-    setShowEdit(false);
-    getUsuarios();
+    await setShowEdit(false);
+    await getUsuarios();
   };
 
   const handleShowNuevo = () => {
@@ -47,15 +44,28 @@ export default function Usuarios() {
         "Content-Type": "application/json",
       },
     });
-    console.log(res.data)
     setUsuarios(res.data);
   };
 
   const deleteUsuario = async (id) => {
-    const res = await axios.delete(`${endPoint}usuarios/${id}`);
-    console.log(res);
-    toast.success(res.data.message);
-    getUsuarios();
+    // Mostrar una alerta de confirmación antes de eliminar
+    const confirmDelete = window.confirm("¿Estás seguro de que quieres eliminar este usuario?");
+
+    if (confirmDelete) {
+      try {
+        const res = await axios.delete(`${endPoint}usuarios/${id}`, {
+          withCredentials: true,
+        });
+        // console.log(res);
+        toast.success(res.data.message);
+        setTimeout(() => {
+          getUsuarios();
+        }, 1000);
+      } catch (error) {
+        console.error(error);
+        toast.error("Error al eliminar el usuario");
+      }
+    }
   };
 
   return (
@@ -70,7 +80,10 @@ export default function Usuarios() {
       <div className={`conter ${inactive ? "inactive" : ""}`}>
         <div className="d-flex justify-content-between">
           <h1>Usuarios</h1>
-          <button className="btn btn-outline-success fs-5 mb-2" onClick={handleShowNuevo}>
+          <button
+            className="btn btn-outline-success fs-5 mb-2"
+            onClick={handleShowNuevo}
+          >
             <AiOutlineUserAdd /> Nuevo usuario
           </button>
         </div>
@@ -80,8 +93,9 @@ export default function Usuarios() {
         <table className="table table-striped">
           <thead>
             <tr>
-              <th scope="col">Nombre</th>
               <th scope="col">Email</th>
+              <th scope="col">Nombre</th>
+              <th scope="col">Apellido</th>
               <th scope="col">Acciones</th>
             </tr>
           </thead>
@@ -89,17 +103,20 @@ export default function Usuarios() {
             {usuarios.map((usuario) => (
               <tr key={usuario.user_id}>
                 <td>{usuario.email}</td>
-                <td>{usuario.email}</td>
+                <td>{usuario.nombre}</td>
+                <td>{usuario.apellido}</td>
                 <td>
-                  <button
-                    className="btn btn-outline-danger me-2"
-                    onClick={() => deleteUsuario(usuario.id)}
-                  >
-                    Eliminar
-                  </button>
+                  {usuario.user_id !== 1 && (
+                    <button
+                      className="btn btn-outline-danger me-2"
+                      onClick={() => deleteUsuario(usuario.user_id)}
+                    >
+                      Eliminar
+                    </button>
+                  )}
                   <button
                     className="btn btn-outline-warning"
-                    onClick={() => handleShowEdit(usuario.id)}
+                    onClick={() => handleShowEdit(usuario.user_id)}
                   >
                     Editar
                   </button>
@@ -110,9 +127,8 @@ export default function Usuarios() {
         </table>
       </div>
 
-      <ModalNewUser show={showNuevo} handleClose={handleClose}/>
-      <ModalEditUser show={showEdit} handleClose={handleClose} id_user={id}/>
-
+      <ModalNewUser show={showNuevo} handleClose={handleClose} />
+      <ModalEditUser show={showEdit} handleClose={handleClose} id_user={id} />
     </AuthRoute>
   );
 }

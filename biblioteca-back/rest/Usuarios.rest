@@ -10,7 +10,9 @@ Content-Type: application/json
 
 {
     "email": "jorgeolv@gmail.com",
-    "password": "12345678"
+    "password": "12345678",
+    "nombre": "Jorge",
+    "apellido": "Olivares"
 }
 
 ### actualizar un usuario
@@ -20,7 +22,9 @@ Content-Type: application/json
 {
     "id": 1,
     "email": "cesarOrtiz@gmail.com",
-    "password": "123456"
+    "password": "123456",
+    "nombre": "Cesar",
+    "apellido": "Ortiz"
 }
 
 ### eliminar un usuario
