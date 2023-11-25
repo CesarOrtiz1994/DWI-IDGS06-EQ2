@@ -6,9 +6,10 @@ import {
   BsFillArrowRightSquareFill,
   BsDoorClosedFill,
 } from "react-icons/bs";
-import { FaHome, FaUserCircle } from "react-icons/fa";
+import { FaHome } from "react-icons/fa";
 import { TbCategory } from "react-icons/tb";
 import { IoLibrary } from "react-icons/io5";
+import { TbUsers } from "react-icons/tb";
 import MenuItems from "./MenuItems";
 import { useAuth } from "../../../Auth/auth";
 
@@ -28,7 +29,7 @@ export default function Menu(props) {
       },
       {
         name: "Usuarios",
-        icon: <FaUserCircle />,
+        icon: <TbUsers />,
         to: "/sistema/usuarios",
       },
       {
