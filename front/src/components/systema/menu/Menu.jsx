@@ -7,7 +7,8 @@ import {
   BsDoorClosedFill,
 } from "react-icons/bs";
 import { FaHome, FaUserCircle } from "react-icons/fa";
-import { FiPackage } from "react-icons/fi";
+import { TbCategory } from "react-icons/tb";
+import { IoLibrary } from "react-icons/io5";
 import MenuItems from "./MenuItems";
 import { useAuth } from "../../../Auth/auth";
 
@@ -32,12 +33,12 @@ export default function Menu(props) {
       },
       {
         name: "Categorias",
-        icon: <FiPackage />,
+        icon: <TbCategory />,
         to: "/sistema/categorias",
       },
       {
         name: "Libros",
-        icon: <FiPackage />,
+        icon: <IoLibrary />,
         to: "/sistema/inventario",
       },
     ];

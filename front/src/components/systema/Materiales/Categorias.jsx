@@ -3,7 +3,7 @@ import Menu from "../menu/Menu";
 import "../systema.css";
 import { AuthRoute } from "../../../Auth/auth";
 import axios from "axios";
-import { TbPackageImport } from "react-icons/tb";
+import { TbCategory2 } from "react-icons/tb";
 import ModalNewMaterial from "./ModalNewMaterial";
 import ModalEditMaterial from "./ModalEditMaterial";
 import { ToastContainer, toast } from "react-toastify";
@@ -45,7 +45,7 @@ export default function Categorias() {
         },
       })
       .then((response) => {
-        console.log(response.data);
+        // console.log(response.data);
         setCategorias(response.data);
       })
       .catch((error) => {
@@ -91,7 +91,7 @@ export default function Categorias() {
             className="btn btn-outline-success fs-5 mb-2"
             onClick={handleShowNuevo}
           >
-            <TbPackageImport /> Nueva Categoria
+            <TbCategory2 /> Nueva Categoria
           </button>
         </div>
 
