@@ -29,17 +29,22 @@ function AuthProvider({ children }) {
 
 
   const API = axios.create({
-    baseURL: "http://127.0.0.1:3001/api",
+    baseURL: "http://localhost:3001/api",
   });
 
   const navigate = useNavigate();
 
   const [dataUser, saveDataUser] = useLocalStorage("dataUser", []);
 
-  const login = ({ email, password }) => {
-    API.post("/login", {
+  const login = async ({ email, password }) => {
+    await API.post("/login", {
       email: email,
       password: password,
+    }, {
+      withCredentials: true,
+      headers: {
+        "Content-Type": "application/json",
+      },
     })
       .then((res) => {
         console.log(res.data)

@@ -20,6 +20,7 @@
     "fs": "^0.0.1-security",
     "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.6.1",
-    "sequelize": "^6.33.0"
+    "sequelize": "^6.33.0",
+    "use-cookies": "^0.1.2"
   }
 }

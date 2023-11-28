@@ -27,7 +27,7 @@ app.use(bodyParser.json())
 app.use(cookiePar())
 app.use(cors({
   origin: 'http://localhost:3000',
-  allowedHeaders: ["Content-Type", "Authorization", 'x-csrf-t'],
+  allowedHeaders: ["Content-Type", "Authorization", 'x-csrf-token'],
   allowedMethods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true,
   maxAge: 600,
@@ -43,18 +43,19 @@ function verificarToken(req, res, next) {
     // Obtener el token de la cookie o de donde lo estés enviando
     
     if (!req.cookies['auth-token']) {
-        token = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiY2VzYXJPcnRpekBnbWFpbC5jb20iLCJpYXQiOjE3MDA1NDA1NDMsImV4cCI6MTcwMDcxMzM0M30.TjgI19axPZm6iFsA2bXWhHhNOw-caiY29_wnx5c2kdrhTr2dTTvDr9jAxsNzQPbD7B9KwO5n_shpviXjjX-9w9gtEara8JyMYR-xryCqfo7sqiqSNNFQX4lMaPpYjTCzyiYISz9U0urmo55Yz-XQia1PQugNHklO2nLuu4WrAjrQOqo8WUXvza4lDt3_Who-7JDHnYQnh_dqqGGL2gm5Ch5HROIt40V9M4sm7IYHBRrgxiUnAiaU8pH9ZFi9yGy-w-ry8CPA87tQjhH06X6pMUEQN72jzQMPzJHEry4OLq-4DsOKA31rndtpIIotmmVtwDkr8qMqpYxKajok0NVq_A'
+        token = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiY2VzYXJPcnRpekBnbWFpbC5jb20iLCJpYXQiOjE3MDExNDQxMjYsImV4cCI6MTcwMTMxNjkyNn0.JZbvmONwus1XO6Bmz1qDosQwLrTG5kAYw3EFNUrN-3DDRU-DBciXI-2BW54vsutTuSMWXGJLB2IB1O6DR0MKLKNXiAOISCG3IL56ZsIWT6haPQ-EXO7UC5qA7ubSagUCTgiM_leNK66wbCy42U6GwFF977IZrt8B0obmTe-9MrCmb9r3GfMRIZEa7ts6TFgzU7a_8FRb8pt0GwSHfOi8dT43Mh3ea_99h9EmcMZfCe4WGfxq4C5S10hbc5G7SaehlKBEx4Y9iFpZ74KuSs9egM8rvZHKm51rrVXIdZkIzI0-b3WAvlVjXeCPZxo31ZI1-1oYA8omxi7vF6y_VxUrig'
     } else {
         token = req.cookies['auth-token'];
-        console.log(req.cookies)
+        // console.log(req.cookies)
     }
   
     // Verificar si el token existe
     if (!token) {
       return res.status(401).json({ error: 'Acceso no autorizado. Token no proporcionado.' });
     }
-  
+    // Verificar si el token es valido
     // Verificar el token
+    // console.log(token)
     jwt.verify(token, clave_privada, (err, decoded) => {
       if (err) {
         return res.status(401).json({ error: 'Acceso no autorizado. Token inválido.' });

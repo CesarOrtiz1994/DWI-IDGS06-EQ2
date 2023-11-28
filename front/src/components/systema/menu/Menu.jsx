@@ -40,7 +40,7 @@ export default function Menu(props) {
       {
         name: "Libros",
         icon: <IoLibrary />,
-        to: "/sistema/inventario",
+        to: "/sistema/libros",
       },
     ];
     
