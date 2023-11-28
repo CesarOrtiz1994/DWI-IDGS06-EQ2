@@ -149,7 +149,7 @@ export default function Libros() {
       <ModalEditLibros
         show={showEdit}
         handleClose={handleClose}
-        id_material={id}
+        id_Libro={id}
       />
     </AuthRoute>
   );

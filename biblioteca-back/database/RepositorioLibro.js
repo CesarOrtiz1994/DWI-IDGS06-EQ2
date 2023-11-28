@@ -10,7 +10,7 @@ function RepositoryLibro() {
     },
     getById: async (id) => {
       console.log("Llega al repository:", id)
-      return Libro.findAll({
+      return Libro.findOne({
         where: {
           id: id
         }

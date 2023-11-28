@@ -90,6 +90,10 @@ export default function ModalNewLibros({ show, handleClose }) {
 
   const limpiar = () => {
     setTitulo("");
+    setAnio("");
+    setAutor("");
+    setEditorial("");
+    setCategoria("");
   };
 
   return (

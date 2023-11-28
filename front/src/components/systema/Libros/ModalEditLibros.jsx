@@ -4,31 +4,65 @@ import Modal from "react-bootstrap/Modal";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-const endPoint = "http://localhost:3001/api/categories";
+const endPoint = "http://localhost:3001/api/books";
 
-export default function ModalEditLibros({ show, handleClose, id_material }) {
-  const [nombre, setNombre] = useState("");
+export default function ModalEditLibros({ show, handleClose, id_Libro }) {
+  const [titulo, setTitulo] = useState("");
+  const [autor, setAutor] = useState("");
+  const [editorial, setEditorial] = useState("");
+  const [categoria, setCategoria] = useState("");
+  const [anio, setAnio] = useState(null);
+  const [selcategoria, setSelcategoria] = useState([]);
+
+  const getCategorias = async () => {
+    await axios
+      .get("http://localhost:3001/api/categories", {
+        withCredentials: true, // Habilita el envío de cookies con la solicitud
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      .then((response) => {
+          console.log(response.data);
+        setSelcategoria(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
 
   useEffect(() => {
-    if (id_material !== 0) {
-      const getMaterialById = async () => {
-        const res = await axios.get(`${endPoint}/${id_material}`, {
+    console.log(id_Libro)
+    if (id_Libro !== 0) {
+      const getLibroById = async () => {
+        const res = await axios.get(`${endPoint}/${id_Libro}`, {
           withCredentials: true, // Habilita el envío de cookies con la solicitud
         });
-        setNombre(res.data.name);
+        console.log(res.data)
+        await setTitulo(res.data.titulo_lib);
+        await setAutor(res.data.autor_lib);
+        await setEditorial(res.data.editorial_lib);
+        await setAnio(res.data.anio_lib);
+        await setCategoria(res.data.fk_cat);
       };
-      getMaterialById();
+      getLibroById();
+      getCategorias();
     }
-  }, [id_material]);
+  }, [id_Libro]);
 
   const edit = async (e) => {
     e.preventDefault();
     if (validate()) {
       await axios
         .put(
-          `${endPoint}/${id_material}`,
+          `${endPoint}`,
           {
-            name: nombre,
+            id: id_Libro,
+            titulo: titulo,
+            anio: anio,
+            autor: autor,
+            editorial: editorial,
+            cat: categoria
           },
           {
             withCredentials: true, // Habilita el envío de cookies con la solicitud
@@ -52,10 +86,19 @@ export default function ModalEditLibros({ show, handleClose, id_material }) {
   };
 
   const validate = () => {
-    if (nombre === "") {
-      toast.error("El nombre es obligatorio");
+    if (titulo === "") {
+      toast.error("El titulo es obligatorio");
       return false;
-    } else {
+    } else if (
+      anio === "" ||
+      autor === "" ||
+      editorial === "" ||
+      categoria === ""
+    ) {
+      toast.error("Todos los campos son obligatorios");
+      return false;
+    }
+     else {
       return true;
     }
   };
@@ -68,14 +111,53 @@ export default function ModalEditLibros({ show, handleClose, id_material }) {
       <Modal.Body>
         <form onSubmit={edit}>
           <div className="mb-3">
-            <label className="form-label">Nombre de la categoria</label>
+            <label className="form-label">Titulo</label>
             <input
               type="text"
               className="form-control"
-              value={nombre}
-              onChange={(e) => setNombre(e.target.value)}
+              value={titulo}
+              onChange={(e) => setTitulo(e.target.value)}
               required
             />
+            <label className="form-label">Año</label>
+            <input
+              type="number"
+              className="form-control"
+              value={anio}
+              onChange={(e) => setAnio(e.target.value)}
+              required
+            />
+            <label className="form-label">Autor</label>
+            <input
+              type="text"
+              className="form-control"
+              value={autor}
+              onChange={(e) => setAutor(e.target.value)}
+              required
+            />
+            <label className="form-label">Editorial</label>
+            <input
+              type="text"
+              className="form-control"
+              value={editorial}
+              onChange={(e) => setEditorial(e.target.value)}
+              required
+            />
+            <label className="form-label">Categoria</label>
+            <select
+              className="form-select"
+              aria-label="Default select example"
+              value={categoria}
+              onChange={(e) => setCategoria(e.target.value)}
+              required
+            >
+              <option value="">Seleccione una categoria</option>
+              {selcategoria.map((cat) => (
+                <option key={cat.category_id} value={cat.category_id}>
+                  {cat.name}
+                </option>
+              ))}
+            </select>
           </div>
           <Button variant="secondary" onClick={handleClose} className="m-2">
             Cerrar
