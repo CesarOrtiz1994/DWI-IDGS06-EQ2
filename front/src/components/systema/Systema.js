@@ -15,7 +15,7 @@ export default function Systema() {
         setInactive(inactive);
       }}/>
       <div className={`conter ${inactive ? 'inactive' : ''}`}>
-        <h1>Electro GP</h1>
+        <h1>BiblioUteq</h1>
         <div className="divhr"></div>
         <br />
 
@@ -36,7 +36,7 @@ export default function Systema() {
 
               </div>
               <div className="card-footer">
-                <small className="text-muted">Electro GP | InnovacionQueretaro</small>
+                <small className="text-muted">BiblioUteq</small>
               </div>
             </div>
           </div>

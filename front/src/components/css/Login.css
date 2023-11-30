@@ -2,8 +2,7 @@
     /* colores */
     --color-warning: #FDC80B;
     --color-sussece: #32D338;
-    --color-primary: #0b5f97;
-    --color-secondary: #3e80ac;
+    --color-secondary: #1b9052;
     --color-blanco: #FFFFFF;
   }
   .App {
@@ -12,11 +11,11 @@
     align-items: center;
     justify-content: center;;
     height: 100vh;
-    background: rgb(11,95,151);
-    background: -moz-linear-gradient(0deg, rgba(11,95,151,1) 10%, rgba(62,128,172,1) 90%);
-    background: -webkit-linear-gradient(0deg, rgba(11,95,151,1) 10%, rgba(62,128,172,1) 90%);
-    background: linear-gradient(0deg, rgba(11,95,151,1) 10%, rgba(62,128,172,1) 90%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#0b5f97",endColorstr="#3e80ac",GradientType=1); 
+    background: rgb(11, 151, 93);
+    background: -moz-linear-gradient(0deg, rgb(11, 151, 93) 10%, rgb(11, 151, 93) 90%);
+    background: -webkit-linear-gradient(0deg, rgb(11, 151, 93) 10%, rgb(11, 151, 93) 90%);
+    background: linear-gradient(0deg, rgb(11, 151, 93) 10%, rgb(11, 151, 93) 90%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#1b9052",endColorstr="#1b9052",GradientType=1); 
   }
   
   .login__image{
@@ -35,13 +34,13 @@
   .login h1{
     text-align: center;
     margin-bottom: 1rem;
-    color: var(--color-primary);
+    color: #1b9052;
   }
   
   .login button{
     width: 100%;
     margin-top: 1rem;
-    background-color: var(--color-primary);
+    background-color: #1b9052;
     color: var(--color-blanco);
     border: none;
     padding: 0.5rem;
@@ -50,7 +49,7 @@
   }
   
   .login button:hover{
-    background-color: var(--color-secondary);
+    background-color: #125632;
   }
   
   
